@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 arrow() {
   echo '----->' "$@"
 }
@@ -11,13 +10,14 @@ indent() {
 
 arrow "Starting adding ODBC Driver 17 for SQL Server"
 BUILD_DIR=$1
+APT_DIR=/layers/fagiani_apt/apt
 mkdir -p "${BUILD_DIR}/.apt/usr/lib/odbc/conf/" | indent
 mkdir -p "${BUILD_DIR}/.apt/usr/share/resources/en_US/" | indent
-cp libmsodbcsql-17.5.so.2.1 "${BUILD_DIR}/.apt/usr/lib/libmsodbcsql-17.5.so.2.1" | indent
+cp "${APT_DIR}/usr/lib/libmsodbcsql-17.5.so.2.1" "${BUILD_DIR}/.apt/usr/lib/libmsodbcsql-17.5.so.2.1" | indent
 arrow "copied libmsodbcsql-17.5.so.2.1"
-cp msodbcsqlr17.rll "${BUILD_DIR}/.apt/usr/share/resources/en_US/msodbcsqlr17.rll" | indent
+cp "${APT_DIR}/usr/share/resources/en_US/msodbcsqlr17.rll" "${BUILD_DIR}/.apt/usr/share/resources/en_US/msodbcsqlr17.rll" | indent
 arrow "copied msodbcsqlr17.rll"
-cp odbcinst.ini "${BUILD_DIR}/.apt/usr/lib/odbc/conf/odbcinst.ini" | indent
+cp "${APT_DIR}/usr/lib/odbc/conf/odbcinst.ini" "${BUILD_DIR}/.apt/usr/lib/odbc/conf/odbcinst.ini" | indent
 arrow "copied odbcinst.ini"
 
 mkdir -p "${BUILD_DIR}/.profile.d" | indent
