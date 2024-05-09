@@ -21,7 +21,12 @@ export ODBCSYSINI=$BUILD_DIR/.odbc
 export ODBCINI=$BUILD_DIR/.odbc/odbcinst.ini
 EOF
 
-# Copy the ODBC configuration file if you have one
-cp $BUILDPACK_DIR/odbcinst.ini $BUILD_DIR/.odbc/
+# Set up the correct driver path in odbcinst.ini dynamically
+cat > $BUILD_DIR/.odbc/odbcinst.ini <<EOF
+[ODBC Driver 17 for SQL Server]
+Description=Microsoft ODBC Driver 17 for SQL Server
+Driver=$BUILD_DIR/.odbc/libmsodbcsql-17.5.so.2.1
+UsageCount=1
+EOF
 
 echo "-----> ODBC Driver setup completed."
