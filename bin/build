@@ -29,4 +29,19 @@ Driver=$BUILD_DIR/.odbc/libmsodbcsql-17.5.so.2.1
 UsageCount=1
 EOF
 
+# Check if the directory contains the driver
+ls -la $BUILD_DIR/.odbc/
+
+# Check environment variables
+echo $LD_LIBRARY_PATH
+echo $ODBCSYSINI
+echo $ODBCINI
+
+# Check contents of odbcinst.ini
+cat $ODBCINI
+
+# Check dependencies of the driver
+ldd $BUILD_DIR/.odbc/libmsodbcsql-17.5.so.2.1
+
+
 echo "-----> ODBC Driver setup completed."
