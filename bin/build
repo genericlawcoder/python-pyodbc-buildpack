@@ -1,7 +1,12 @@
 #!/bin/sh
 
-# Get arguments
+# Arguments supplied by the build system
 BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+# Determine the directory of this buildpack
+BUILDPACK_DIR=$(cd $(dirname $0) && cd .. && pwd)
 
 echo "-----> Installing Microsoft ODBC Driver..."
 
