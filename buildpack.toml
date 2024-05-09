@@ -1,8 +1,9 @@
+api = "0.2"
+
 [buildpack]
 id = "genericlawcoder/python-pyodbc-buildpack"
 name = "Python ODBC heroku buildpack"
 version = "2.1.1"
-api = "0.2"
 
 [[stacks]]
 id = "heroku-18"
