@@ -1,0 +1,7 @@
+[buildpack]
+id = "genericlawcoder/python-pyodbc-buildpack"
+name = "Python ODBC heroku buildpack"
+version = "1.0.0"
+
+[stacks]
+ids = ["io.buildpacks.stacks.bionic", "io.buildpacks.stacks.focal"]
