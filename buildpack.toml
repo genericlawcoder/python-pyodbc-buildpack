@@ -5,6 +5,9 @@ version = "1.0.0"
 api = "0.2"
 
 [[stacks]]
+id = "heroku-18"
+
+[[stacks]]
 id = "heroku-20"
 
 [[stacks]]
