@@ -1,28 +1,27 @@
 #!/bin/sh
 
-# Arguments supplied by the build system
+# Assuming these are the paths based on your error message
 BUILD_DIR=$1
-CACHE_DIR=$2
-ENV_DIR=$3
-
-# Determine the directory of this buildpack
 BUILDPACK_DIR=$(cd $(dirname $0) && cd .. && pwd)
 
 echo "-----> Installing Microsoft ODBC Driver..."
 
-# Create a directory for ODBC drivers
+# Create necessary directories if they don't exist
+mkdir -p $BUILD_DIR/.profile.d
 mkdir -p $BUILD_DIR/.odbc
 
-# Copy the precompiled driver and resource files
+# Copy the precompiled driver and resource files to appropriate directories
 cp $BUILDPACK_DIR/libmsodbcsql-17.5.so.2.1 $BUILD_DIR/.odbc/
 cp $BUILDPACK_DIR/msodbcsqlr17.rll $BUILD_DIR/.odbc/
 
-# Set environment variables
-echo "export LD_LIBRARY_PATH=\"\$LD_LIBRARY_PATH:$BUILD_DIR/.odbc\"" > $BUILD_DIR/.profile.d/odbc.sh
+# Create the environment setup script in .profile.d
+cat > $BUILD_DIR/.profile.d/odbc.sh <<EOF
+export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$BUILD_DIR/.odbc"
+export ODBCSYSINI=$BUILD_DIR/.odbc
+export ODBCINI=$BUILD_DIR/.odbc/odbcinst.ini
+EOF
 
-# If you have an odbcinst.ini, set it up
+# Copy the ODBC configuration file if you have one
 cp $BUILDPACK_DIR/odbcinst.ini $BUILD_DIR/.odbc/
-echo "export ODBCSYSINI=$BUILD_DIR/.odbc" >> $BUILD_DIR/.profile.d/odbc.sh
-echo "export ODBCINI=$BUILD_DIR/.odbc/odbcinst.ini" >> $BUILD_DIR/.profile.d/odbc.sh
 
 echo "-----> ODBC Driver setup completed."
