@@ -1,26 +1,21 @@
 #!/bin/sh
 
-arrow() {
-  echo '----->' "$@"
-}
-
-indent() {
-  sed -u 's/^/       /'
-}
-
-arrow "Starting adding ODBC Driver 17 for SQL Server"
 BUILD_DIR=$1
-APT_DIR=/layers/fagiani_apt/apt
-mkdir -p "${BUILD_DIR}/.apt/usr/lib/odbc/conf/" | indent
-mkdir -p "${BUILD_DIR}/.apt/usr/share/resources/en_US/" | indent
-cp "${APT_DIR}/usr/lib/libmsodbcsql-17.5.so.2.1" "${BUILD_DIR}/usr/lib/libmsodbcsql-17.5.so.2.1" | indent
-arrow "copied libmsodbcsql-17.5.so.2.1"
-cp "${APT_DIR}/usr/share/resources/en_US/msodbcsqlr17.rll" "${BUILD_DIR}/usr/share/resources/en_US/msodbcsqlr17.rll" | indent
-arrow "copied msodbcsqlr17.rll"
-cp "${APT_DIR}/usr/lib/odbc/conf/odbcinst.ini" "${BUILD_DIR}/usr/lib/odbc/conf/odbcinst.ini" | indent
-arrow "copied odbcinst.ini"
 
-mkdir -p "${BUILD_DIR}/.profile.d" | indent
-cp .profile.d/configure-odbc.sh "${BUILD_DIR}/.profile.d" | indent
-arrow "copied profile.d"
-arrow "Finished adding ODBC Driver 17 for SQL Server"
+echo "-----> Installing Microsoft ODBC Driver..."
+
+# Install wget and other necessary tools
+apt-get update
+apt-get install -y wget apt-transport-https gcc g++ unixodbc-dev
+
+# Install Microsoft GPG keys
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+# Add Microsoft Repository
+wget -qO- https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+# Install the driver
+apt-get update
+ACCEPT_EULA=Y apt-get install -y msodbcsql17
+
+echo "-----> ODBC Driver installation done."
