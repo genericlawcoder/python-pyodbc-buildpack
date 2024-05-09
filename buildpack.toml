@@ -1,4 +1,4 @@
-api = "0.2"
+api = "0.10"
 
 [buildpack]
 id = "genericlawcoder/python-pyodbc-buildpack"
